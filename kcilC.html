@@ -1,0 +1,274 @@
+<!DOCTYPE html> 
+<html>
+
+<head>
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1"> 
+	<title>kcilC</title> 
+	<link rel="stylesheet" href="./css/jQuery.css" />
+	<script src="./scripts/jQuery.js"></script>
+	<script src="./scripts/jQueryMobile.js"></script>
+    <link rel="stylesheet" href="css/jquery.mobile.structure-1.0.1.css" />
+    <link rel="stylesheet" href="css/jquery.mobile-1.0.1.css" />
+	<link rel="stylesheet" href="css/kcilc.css" />
+	<script language="javascript">
+				var selectedFlag = 'IL';
+				function selectFlag(idSelectedFlag)
+				{
+				    document.getElementById('ILFlag').src = "http://72.32.67.167/kcilC/images/IL - Dark.png";
+				    document.getElementById('USFlag').src = "http://72.32.67.167/kcilC/images/US - Dark.png";
+				    document.getElementById('UKFlag').src = "http://72.32.67.167/kcilC/images/UK - Dark.png";
+					document.getElementById('AUFlag').src = "http://72.32.67.167/kcilC/images/AU - Dark.png";
+					document.getElementById('GEFlag').src = "http://72.32.67.167/kcilC/images/GE - Dark.png";
+					document.getElementById('INFlag').src = "http://72.32.67.167/kcilC/images/IN - Dark.png";
+					var flagPath = "http://72.32.67.167/kcilC/images/" + idSelectedFlag.replace("Flag", "") + ".png";
+					document.getElementById(idSelectedFlag).src=flagPath;
+					selectedFlag = idSelectedFlag.replace("Flag", "");
+	            }
+				
+				
+				function about()
+				{
+					$('#contactHeader')[0].textContent = "About kcilC";
+					$('#ContentRow').css('display','none');
+					$('#aboutRow').css('display','inline');
+					$('#loader').css('display','none');				
+					$("#overlayEffect").fadeIn("slow");
+					$("#popupContainer").fadeIn("slow");
+					$("#btnBack").blur();
+					$("#btnBack").fadeIn("slow");
+					center();
+				};
+
+	            //$("#popup").click(function () {
+				function gogo()
+				{
+	                try{
+					$('#contactHeader')[0].textContent = "Contact";
+					$('#ContentRow').css('display','none');
+					$('#aboutRow').css('display','none');
+					$('#loader').css('display','inline');
+					$.ajax({
+	                    type: "POST",
+	                    //url: "http://localhost/kcilC/Service1.asmx/GetContact",
+	                    url: "http://72.32.67.167/kcilC/Service1.asmx/GetContact",
+	                    data: "{'JSONstr':'{\"inPhoneNumber\":"+$('#intExt').val()+",\"inCountry\":"+selectedFlag+"}'}",
+	                    contentType: "application/json; charset=utf-8",
+	                    dataType: "json",
+	                    success: function (data) {
+						
+							var result;
+							var call;
+							$('#btnCall').attr('href','');
+							if(data.d === "Contact wasn't found")
+							{
+								$('#btnCall').css('opacity','0.25');
+								$('#btnCall').css('cursor','default');
+								result = data.d;
+							}
+							else
+							{
+								result = data.d.substring(0, data.d.indexOf(';'));
+								call = data.d.substring(data.d.indexOf(';')+1);
+								$('#btnCall').css('opacity','1');
+								$('#btnCall').attr('href','tel:' + call);
+							}
+							$('#result').text(result);	
+							$('#divResult').css('display','inline');
+							$('#ContentRow').css('display','inline');
+							$('#loader').css('display','none');
+							$('#aboutRow').css('display','none');
+	                    },
+	                    failure: function (errMsg) {
+	                        alert('failure' + errMsg);
+	                    }
+	                });
+					}
+					catch(ex)
+					{
+						$('#result').text("Error")
+						console.log(ex);
+					}
+	            }
+				//);
+$(function() {
+	
+var popup = false;
+				
+$("#popup").click(function(){
+	if(popup == false){
+		$("#overlayEffect").fadeIn("slow");
+		$("#popupContainer").fadeIn("slow");
+		$("#btnBack").blur();
+		$("#btnBack").fadeIn("slow");
+	    center();
+		popup = true;
+	}	
+	});
+	
+	$("#btnBack").click(function(){
+		hidePopup();
+	});
+	
+	$("#overlayEffect").click(function(){
+		hidePopup();
+	});
+	
+function center(){
+	var windowWidth = document.documentElement.clientWidth;
+	var windowHeight = document.documentElement.clientHeight;
+	var popupHeight = $("#popupContainer").height();
+	var popupWidth = $("#popupContainer").width();
+	$("#popupContainer").css({
+		"position": "absolute",
+		"top": windowHeight/2-popupHeight/2,
+		"left": windowWidth/2-popupWidth/2
+	});
+	
+	}
+function hidePopup(){
+	//if(popup==true){
+		$("#overlayEffect").fadeOut("slow");
+		$("#popupContainer").fadeOut("slow");
+		$("#btnBack").fadeOut("slow");
+		popup = false;
+//	}
+}
+
+} ,jQuery);
+	            
+function center(){
+    var windowWidth = document.documentElement.clientWidth;
+    var windowHeight = document.documentElement.clientHeight;
+    var popupHeight = $("#popupContainer").height();
+    var popupWidth = $("#popupContainer").width();
+    $("#popupContainer").css({
+        "position": "absolute",
+        "top": windowHeight/2-popupHeight/2,
+        "left": windowWidth/2-popupWidth/2
+    });
+}
+
+function hidePopup(){
+    if(popup==true){
+        $("#overlayEffect").fadeOut("slow");
+        $("#popupContainer").fadeOut("slow");
+        $("#btnBack").fadeOut("slow");
+        popup = false;
+    }
+}
+	            
+</script>
+   
+</head> 
+
+	
+<body> 
+
+<!-- Start of first page: #one -->
+<div data-theme="a" data-role="page" id="one">
+
+	<div data-theme="a" data-role="header">
+		<h1>kcilC</h1>
+	</div><!-- /header -->
+
+	<div data-theme="b" data-role="content" >	
+	
+	<center>	<h4>Insert extention and country
+and find out who's calling!</h4>
+		
+	<div data-role="fieldcontain">
+    	
+    <input style="text-align: center;" type="number" name="name" id="intExt" value="400"  />
+	
+	
+	</div>	</center>
+		
+	<table style="width: 100%;">
+			<tbody>
+				
+				<tr id="flagsRow">
+					<td align="center" style="width:15%;"><img id="ILFlag" src="http://72.32.67.167/kcilC/images/IL.png" onclick="selectFlag('ILFlag');" ></a></td>
+					<td align="center" style="width:15%;"><img id="USFlag" src="http://72.32.67.167/kcilC/images/US - Dark.png" onclick="selectFlag('USFlag');" ></a></td>
+					<td align="center" style="width:15%;"><img id="UKFlag" src="http://72.32.67.167/kcilC/images/UK - Dark.png" onclick="selectFlag('UKFlag');" ></a></td>
+					<td align="center" style="width:15%;"><img id="AUFlag" src="http://72.32.67.167/kcilC/images/AU - Dark.png" onclick="selectFlag('AUFlag');" ></a></td>
+					<td align="center" style="width:15%;"><img id="GEFlag" src="http://72.32.67.167/kcilC/images/GE - Dark.png" onclick="selectFlag('GEFlag');" ></a></td>
+					<td align="center" style="width:15%;"><img id="INFlag" src="http://72.32.67.167/kcilC/images/IN - Dark.png" onclick="selectFlag('INFlag');" ></a></td>
+				</tr>
+			</tbody>
+	</table>
+				
+	<br/>
+	<br/>
+			
+	<p><Input data-theme="a" type=button id="popup" value="Go" Onclick="gogo();"></p>
+	<table style="width: 100%;">
+		<tbody>
+			<tr>
+				<!-- <td><label for="select-choice-c" class="select ui-select" style="margin: .5em 5px;">Created by Yoav Prat and Oded Bar-Yehuda</label></td>
+				<td> -->
+					<div id="social-holder" style="float:right; clear:none;"  class="social">
+							<td style="width:50%; float:left;">
+								<a href="http://www.clicksoftware.com" style="height:12px; vertical-align:bottom;">
+									<img id="logo" src="images/ClickSoftware.png" alt="Nova" onclick="about()"/>
+								</a>
+							</td>
+							<td style="width:10%; margin-right:1%; float:right;">
+								<a>
+									<img style="cursor: pointer;" src="images/info.png" title="About" Onclick="about();"></img>
+								</a>
+								<!-- <Input src="images/info.png" title="About"data-theme="a" type=button Onclick="about();"> -->
+							</td>
+							<td style="width:10%; margin-right:1%; float:right;">
+								<a href="http://www.youtube.com/user/ClickSoftware/featured">
+									<img src="images/youtube.png" title="View our videos"></img>
+								</a>
+							</td>
+							<td style="width:10%; margin-right:1%; float:right;">
+								<a href="http://www.twitter.com/ClickSoftware">
+									<img src="images/twitter.png" title="Follow our tweets"></img>
+								</a>
+							</td>
+							<td style="width:10%; margin-right:1%; float:right;">
+								<a href="https://www.facebook.com/ClickSoftware">
+									<img src="images/facebook.png" title="Become a fan"></img>
+								</a>
+							</td>
+					</div>
+				</td>
+			</tr>
+		</tbody>
+	</table>
+	<div data-role="page" id="popupContainer" class="hidden">
+
+		<div data-role="header" data-theme="c" style="border-top-left-radius: 10px; border-top-right-radius: 10px;">
+			<h1><span id="contactHeader">Contact</span></h1>
+		</div><!-- /header -->
+
+		<div data-role="content" data-theme="a" style="border-bottom-left-radius: 10px; border-bottom-right-radius: 10px; padding:0;">	
+			<table style="width:100%" id="ContactTable">
+			<tr id="loaderRow"><td>
+			<img style="display:none; width:30%; margin-left:35%;" id="loader" src="images/atom.gif"/>
+			</td></tr>
+			<tr id="ContentRow">
+			<td>
+				<a id="btnCall" href="#one" data-role="button" data-inline="true" data-icon="grid" style="margin:0;">Call</a>
+			</td>
+					<td id="contactCell">
+					<center id="contactCenter"><h2 id="result" style="margin:0; font-size: 1.2em;">Popup</h2></center>
+			</td>
+			</tr>
+			<tr id="aboutRow" style="display:none;"><td>
+				<label for="select-choice-c" class="select ui-select" style="margin: .5em 5px; margin-bottom:0px;">kcilC was created by:</label>
+				<label for="select-choice-c" class="select ui-select" style="margin: .5em 5px; margin-top:0px; margin-bottom:0px;">Oded Bar-Yehuda, Yoav Prat</label>
+				<label for="select-choice-c" class="select ui-select" style="margin: .5em 5px; margin-top:0px; margin-bottom:0px;">Ram Reshef and Uri Pintov</label>
+				<label for="select-choice-c" class="select ui-select" style="margin: .5em 5px;">version: 1.0.0</label>
+			</td></tr>
+			</table>
+			<center><p style="margin:0;"><a href="#one" id="btnBack" data-role="button" data-inline="true" data-icon="back" data-theme="a">Back to kcilC</a></p></center>
+		</div><!-- /content -->
+	</div><!-- /page popup -->
+	<div id="overlayEffect" style="display: none; "></div>	
+
+</body>
+</html>

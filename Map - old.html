@@ -1,0 +1,160 @@
+﻿<!DOCTYPE html>
+<html>
+	<head>
+		    <meta name="viewport" content="initial-scale=1.0, user-scalable=no">
+			
+    <meta charset="utf-8">
+    <title>WeddApp</title>
+    <link href="./css/cssMap.css" rel="stylesheet" />
+	<link rel="stylesheet" href="css/jquery.mobile.structure-1.0.1.css" />
+	<link rel="stylesheet" href="css/jquery.mobile-1.0.1.css" />
+	<link rel="stylesheet" href="css/WeddAppCSS.css" />	
+	<script src="./scripts/jQueryMobile.js"></script>
+    <script src="https://maps.googleapis.com/maps/api/js?sensor=true"></script>
+		
+    <style>
+	
+	  #header {
+			font-family: Helvetica, Arial, sans-serif /*{global-font-family}*/;
+			border: 1px solid white /*{a-bar-border}*/;
+			background: #3FBCFF /*{a-bar-background-color}*/;
+			color: white /*{a-bar-color}*/;
+			font-weight: bold;
+			text-shadow: 0 /*{a-bar-shadow-x}*/ 1px /*{a-bar-shadow-y}*/ 1px /*{a-bar-shadow-radius}*/ #444 /*{a-bar-shadow-color}*/;
+			background-image: -webkit-gradient(linear, left top, left bottom, from( #3FBCFF /*{a-bar-background-start}*/), to( #3FBCFF /*{a-bar-background-end}*/));
+			background-image: -webkit-linear-gradient( #3FBCFF /*{a-bar-background-start}*/, #3FBCFF /*{a-bar-background-end}*/);
+			background-image: -moz-linear-gradient( #3FBCFF /*{a-bar-background-start}*/, #3FBCFF /*{a-bar-background-end}*/);
+			background-image: -ms-linear-gradient( #3FBCFF /*{a-bar-background-start}*/, #3FBCFF /*{a-bar-background-end}*/);
+			background-image: -o-linear-gradient( #3FBCFF /*{a-bar-background-start}*/, #3FBCFF /*{a-bar-background-end}*/);
+			background-image: linear-gradient( #3FBCFF /*{a-bar-background-start}*/, #3FBCFF /*{a-bar-background-end}*/);
+		}
+		
+	  #h3 {
+			color: white /*{a-bar-color}*/;
+			font-weight: bold;
+			text-shadow: 0 /*{a-bar-shadow-x}*/ 1px /*{a-bar-shadow-y}*/ 1px /*{a-bar-shadow-radius}*/ #444 /*{a-bar-shadow-color}*/;
+			font-family: Helvetica, Arial, sans-serif /*{global-font-family}*/;
+			min-height: 1.1em;
+			text-align: center;
+			font-size: 16px;
+			display: block;
+			margin: .6em 90px .8em;
+			padding: 0;
+			text-overflow: ellipsis;
+			overflow: hidden;
+			white-space: nowrap;
+			outline: 0 !important;
+		}	
+		
+      #directions-panel {
+        height: 100%;
+        float: right;
+        width: 390px;
+        overflow: auto;
+      }
+
+      #map-canvas {
+        margin-right: 400px;
+      }
+
+      #control {
+        background: #fff;
+        padding: 5px;
+        font-size: 14px;
+        font-family: Arial;
+        border: 1px solid #ccc;
+        box-shadow: 0 2px 2px rgba(33, 33, 33, 0.4);
+        display: none;
+      }
+
+      @media print {
+        #map-canvas {
+          height: 500px;
+          margin: 0;
+        }
+
+        #directions-panel {
+          float: none;
+          width: auto;
+        }
+      }
+    </style>
+	<style type="text/css">
+		#Home
+		{
+		position:absolute;
+		left:0px;
+		top:0px;
+		z-index:10;
+		}
+	</style>
+	<script type="text/javascript">		
+		function Redirect(pageName)
+		{
+			window.location.replace(pageName + ".html");
+		}
+	</script>
+    <script>
+      var directionDisplay;
+      var directionsService = new google.maps.DirectionsService();
+
+      function load() {
+        directionsDisplay = new google.maps.DirectionsRenderer();
+        var mapOptions = {
+          zoom: 7,
+          mapTypeId: google.maps.MapTypeId.ROADMAP,
+          center: new google.maps.LatLng(32.023884,34.781666)
+        };
+        var map = new google.maps.Map(document.getElementById('map_canvas'),
+            mapOptions);
+        directionsDisplay.setMap(map);
+        directionsDisplay.setPanel(document.getElementById('directions-panel'));
+		
+		if (navigator.geolocation) {
+			navigator.geolocation.getCurrentPosition(success,fail);
+		} else {
+			alert("Geo Location is not supported");
+		}
+
+       // var control = document.getElementById('control');
+       // control.style.display = 'block';
+       // map.controls[google.maps.ControlPosition.TOP].push(control);
+	   //calcRoute();
+      }
+	  
+	  function success(position) {
+                corLatitude = position.coords.latitude;
+                corLongitude = position.coords.longitude;
+        var request = {
+          origin: corLatitude + ', ' + corLongitude,
+          destination: "חולון, ישראל",
+		  provideRouteAlternatives: false,
+		  travelMode: google.maps.DirectionsTravelMode.DRIVING,
+		  unitSystem: google.maps.UnitSystem.METRIC
+        };
+        directionsService.route(request, function(response, status) {
+          if (status == google.maps.DirectionsStatus.OK) {
+            directionsDisplay.setDirections(response);
+          }
+        });
+		}
+				
+		function fail() {
+		alert("Cannot recieve current location, please make sure GPS is turned on.");
+		}
+
+      //google.maps.event.addDomListener(window, 'load', initialize);
+    </script>
+	</head>
+	<body onload="load()">
+		<div id="header">
+				<img style="margin-top:5px; margin-left:5px; height:inherit;" id="Home" src="./images/Back.png" onclick="Redirect('index')"/>
+			<h3 id="h3">
+				Map
+			</h3>
+		</div>
+		<div id="directions-panel" style="direction: ltr; "></div>
+		<div id="map_canvas" style="position: relative; background-color: rgb(229, 227, 223); overflow: hidden; "></div>
+		<div id="jsts" style="display: none; position: absolute; "></div>
+	</body>
+</html>

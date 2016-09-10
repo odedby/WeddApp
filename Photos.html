@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1" />
+        <title>WeddApp</title>
+    	<link rel="stylesheet" href="css/jQuery.css" />
+	    <link rel="stylesheet" href="css/jquery.mobile.structure-1.0.1.css" />
+	    <link rel="stylesheet" href="css/jquery.mobile-1.0.1.css" />
+		<link rel="stylesheet" href="css/WeddAppCSS.css" />
+		<link rel="stylesheet" href="css/pwi.css" type="text/css"/>
+		
+		<script src="./scripts/jQuery.js"></script>
+		<script src="cordova-2.0.0.js"></script>
+		<script src="./scripts/jQueryMobile.js"></script>
+		<script src="scripts/downloadpicasa.js" type="text/javascript"></script>
+		<style type="text/css">
+			#Home
+			{
+			position:absolute;
+			left:0px;
+			top:0px;
+			z-index:10;
+			}
+		</style>
+		<script type="text/javascript">		
+			function Redirect(pageName)
+			{
+				window.location.replace(pageName + ".html");
+			}
+		</script>
+    </head>
+    <body onload="ClearLoader()">
+        <div data-role="page" id="page1">
+            <div data-theme="a" data-role="header">
+				<img style="margin-top:5px; margin-left:5px; height:inherit;" id="Home" src="./images/Back.png" onclick="Redirect('index')"/>
+                <h3>
+                    Photos
+                </h3>
+            </div>
+			
+            <div id="container" style="display:inline"></div>
+            <div id="divRefresh" style="display:inline">
+				<div style="width:50%; float:right"><button id="btnRefresh" onclick="Refresh()">Refresh</button></div>
+				<div style="width:50%; float:left">
+					<button id="btnAddPhoto" onclick="AddPhoto()">Add Photo</button>
+				</div>
+			</div>
+			<div>
+				<img style="display:none;width:60px;height:60px;" id="smallImage" />
+			</div>
+			<div id="divPhoto" style="display:none">
+				<img id="imgPhoto"></img>
+				<button id="btnBack" onclick="Back()">Back</button>
+			</div>
+        </div>
+    </body>
+</html>

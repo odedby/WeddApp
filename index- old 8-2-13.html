@@ -1,0 +1,53 @@
+
+	<!DOCTYPE html>
+	<html>
+		<head>
+			<meta charset="utf-8">
+			<meta name="viewport" content="width=device-width, initial-scale=1">
+			<title>WeddApp</title>
+			<!-- <link rel="stylesheet" href="themes/aaa.min.css" /> -->
+			<link rel="stylesheet" href="http://code.jquery.com/mobile/1.1.0/jquery.mobile.structure-1.1.0.min.css" />
+			<script src="http://code.jquery.com/jquery-1.7.1.min.js"></script>
+			<script src="http://code.jquery.com/mobile/1.1.0/jquery.mobile-1.1.0.min.js"></script>
+			<link rel="stylesheet" href="css/WeddAppCSS.css" />
+			<script type="text/javascript">		
+				function Redirect(pageName)
+				{
+					window.location.replace(pageName + ".html");
+				}
+			</script>
+		</head>
+		<body>			
+		<div id="divIcons">
+			<div style="width: 100%;">
+				<div style="width: 47%; margin:1%; margin-left:2%; margin-top:2%; float:left;">
+					<img style="cursor:pointer; width: 100%; max-width:256px;" id="PhotosIcon" src="./images/WPIcons/Photos.png" onclick="Redirect('Photos')"/>
+				</div>
+				<div style="width: 47%; margin:1%; margin-right:2%; margin-top:2%; float:right;">
+					<img style="cursor:pointer; width: 100%; max-width:256px;" id="MapIcon" src="./images/WPIcons/Map.png" onclick="Redirect('Map')"/>
+				</div>
+			</div>
+			<div style="width: 100%;">
+				<div style="width: 47%; margin:1%; margin-left:2%; margin-top:0.5%; float:left;">
+					<img style="cursor:pointer; width: 100%; max-width:256px;" id="InvitationIcon" src="./images/WPIcons/Invitation.png" onclick="Redirect('Invitation')"/>
+				</div>
+				<div style="width: 47%; margin:1%; margin-right:2%; margin-top:0.5%; float:right;">
+					<img style="cursor:pointer; width: 100%; max-width:256px;" id="HitchhikeIcon" src="./images/WPIcons/Hitchhike.png" onclick="Redirect('Hitchhike')"/>
+				</div>
+			</div>
+			<div style="width: 100%;">
+				<div style="width: 47%; margin:1%; margin-left:2%; margin-top:0.5%; float:left;">
+					<img style="cursor:pointer; width: 100%; max-width:256px;" id="TableIcon" src="./images/WPIcons/Table.png" onclick="Redirect('Table')"/>
+				</div>	
+				<div style="width: 47%; margin:1%; margin-right:2%; margin-top:0.5%; float:right;">
+					<img style="cursor:pointer; width: 100%; max-width:256px;" id="GreetingIcon" src="./images/WPIcons/Greeting.png" onclick="Redirect('Greeting')"/>
+				</div>
+			</div>
+					<div style="width: 100%;">
+				<div style="width: 47%; margin:1%; margin-left:2%; margin-top:0.5%; float:left;">
+					<img style="cursor:pointer; width: 100%; max-width:256px;" id="CreditsIcon" src="./images/WPIcons/Credits.png" onclick="Redirect('Credits')"/>
+				</div>	
+			</div>
+		</div>
+		</body>
+	</html>

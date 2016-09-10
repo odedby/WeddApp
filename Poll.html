@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1" />
+        <title>
+        </title>
+        <link rel="stylesheet" href="http://code.jquery.com/mobile/1.1.0/jquery.mobile-1.1.0.min.css" />
+        <style>
+            /* App custom styles */
+        </style>
+        <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js">
+        </script>
+        <script src="http://code.jquery.com/mobile/1.1.0/jquery.mobile-1.1.0.min.js">
+        </script>
+    </head>
+    <body>
+        <div data-role="page" id="page1">
+            <div data-theme="b" data-role="header">
+                <h3>
+                    Polls
+                </h3>
+                <div data-role="navbar" data-iconpos="top">
+                    <ul>
+                    </ul>
+                </div>
+                <div data-role="navbar" data-iconpos="top">
+                    <ul>
+                        <li>
+                            <a href="#page1" data-theme="a" data-icon="">
+                                Home
+                            </a>
+                        </li>
+                        <li>
+                            <a href="#page1" data-theme="a" data-icon="">
+                                Photos
+                            </a>
+                        </li>
+                        <li>
+                            <a href="#page1" data-theme="a" data-icon="">
+                                Map
+                            </a>
+                        </li>
+                        <li>
+                            <a href="#page1" data-theme="b" data-icon="">
+                                Polls
+                            </a>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+            <div data-role="content">
+                <h3>
+                    Arrival Approval
+                </h3>
+                <div data-role="fieldcontain">
+                    <fieldset data-role="controlgroup" data-mini="true">
+                        <label for="textinput1">
+                            Name
+                        </label>
+                        <input id="textinput1" placeholder="" value="" type="text" />
+                    </fieldset>
+                </div>
+                <div data-role="fieldcontain">
+                    <fieldset data-role="controlgroup" data-mini="true">
+                        <label for="slider1">
+                            No. of Guests:
+                        </label>
+                        <input type="range" name="slider" id="slider1" value="2" min="1" max="10" data-highlight="true" data-theme="b" data-track-theme="d" />
+                    </fieldset>
+                </div>
+                <div data-role="fieldcontain">
+                    <fieldset data-role="controlgroup">
+                        <label for="toggleswitch1">
+                            Arriving:
+                        </label>
+                        <select name="toggleswitch1" id="toggleswitch1" data-theme="b" data-role="slider" data-mini="true">
+                            <option value="off">
+                                No
+                            </option>
+                            <option value="on">
+                                Yes
+                            </option>
+                        </select>
+                    </fieldset>
+                </div>
+                <a data-role="button" data-transition="fade" data-theme="a" href="#page1" data-icon="back" data-iconpos="left">
+                    Home
+                </a>
+            </div>
+        </div>
+        <script>
+            //App custom javascript
+        </script>
+    </body>
+</html>

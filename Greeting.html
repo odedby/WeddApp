@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1" />
+        <title>WeddApp</title>
+    	<link rel="stylesheet" href="css/jQuery.css" />
+	    <link rel="stylesheet" href="css/jquery.mobile.structure-1.0.1.css" />
+	    <link rel="stylesheet" href="css/jquery.mobile-1.0.1.css" />
+		<link rel="stylesheet" href="css/WeddAppCSS.css" />
+		<link rel="stylesheet" href="css/pwi.css" type="text/css"/>
+		
+		<script src="./scripts/jQuery.js"></script>
+		<script src="cordova-2.0.0.js"></script>
+		<script src="./scripts/jQueryMobile.js"></script>
+		<script src="scripts/downloadpicasa.js" type="text/javascript"></script>
+		<style type="text/css">
+			#Home
+			{
+			position:absolute;
+			left:5px;
+			top:5px;
+			z-index:10;
+			}
+			.ui-br
+			{
+			border-bottom-style: none;
+			}
+			.ui-field-contain
+			{
+			margin:0.3em 0;
+			}
+		</style>
+		<script type="text/javascript">		
+			function Redirect(pageName)
+			{
+				window.location.replace(pageName + ".html");
+			}
+			var content = '';
+			function Send()
+			{
+			if($('#inputSender').val() == '' || $('#inputContent').val() == '')
+			{
+				alert('Please fill both sender and greeting');
+			}
+			else
+			{
+				if(confirm('Are you sure you want to send the greeting?'))
+					{
+						try{
+							content = ($('#inputContent').val());
+							while(content.indexOf('\n') > 0) {content = content.replace('\n','$$$');}
+							$.ajax({
+								type: "POST",
+								url: "http://localhost/WeddApp/WeddAppService.asmx/Greeting",
+								data: "{'jsonGreeting':'{\"inSender\":" + $('#inputSender').val() + ",\"inContent\":" + content + "}'}",
+								contentType: "application/json; charset=utf-8",
+								dataType: "json",
+								success: function (data) {
+									if(data.d == "Success!")
+									{alert('Greeting sent succefully!');}
+									else{alert('There was an error sending Greeting.');}
+								},
+								failure: function (errMsg) {
+									alert('failure' + errMsg);
+								},
+								error: function (result) {
+									alert(result);
+								}
+							});
+						}
+						catch(ex)
+						{
+							$('#result').text("Error")
+							console.log(ex);
+						}
+					}
+				}
+			}
+		</script>
+    </head>
+    <body onload="ClearLoader()">
+        <div data-role="page" id="page1">
+            <div data-theme="a" data-role="header">
+				<img style="height:inherit;" id="Home" src="./images/Back.png" onclick="Redirect('index')"/>
+                <h3>
+                    Credits
+                </h3>
+			</div>
+			<div>
+					<h2 style="margin: 0.3em;"><center>Send a greeting to us</center></h2>
+					<table style="width:100%; height:100%;">
+						<tbody>
+							<tr>
+								<td>
+									<div>
+										<label>From:</label>
+									</div>
+								</td>
+								<td>
+									<div>
+										<input name="inputSender" id	="inputSender" style="width:90%">
+									</div>
+								</td>
+							</tr>
+							<tr>
+								<td>
+									<div>
+										<label>Greeting:</label>
+									</div>
+								</td>
+								<td>
+									<div>
+										<textarea name="inputContent" id="inputContent" style="height:200px; width:90%"></textarea>
+									</div>
+								</td>
+							</tr>
+						</tbody>
+					</table>
+					<div class="ui-block-b">
+						<button onclick="Send(this.form)">Submit</button>
+					</div>
+			</div>
+        </div>
+    </body>
+</html>

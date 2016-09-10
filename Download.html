@@ -1,0 +1,172 @@
+﻿<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1" />
+        <meta name="apple-mobile-web-app-capable" content="yes" />
+        <meta name="apple-mobile-web-app-status-bar-style" content="black" />
+        <title>
+        </title>
+        <link rel="stylesheet" href="https://ajax.aspnetcdn.com/ajax/jquery.mobile/1.2.0/jquery.mobile-1.2.0.min.css" />
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.7.2/jquery.min.js">
+        </script>
+        <script src="https://ajax.aspnetcdn.com/ajax/jquery.mobile/1.2.0/jquery.mobile-1.2.0.min.js">
+        </script>
+        <script type="text/javascript">
+			function load()
+			{
+				$('#lblRadio1').click();			
+			}
+			
+			function Change(num)
+			{
+			    $('#divIntro' + num).css('display', 'inline');
+				$('#divIntro' + (1 - num)).css('display','none');
+			}
+			
+			function AddOne()
+			{
+				try
+				{							
+					$.ajax({
+						type: "POST",
+						url: "http://papo84.no-ip.org/WeddApp/WeddAppService.asmx/AddOne",
+						data: "{'jsonTable':'{\"inName\":a}'}",
+						contentType: "application/json; charset=utf-8",
+						dataType: "json",
+						success: function (data) {},
+						failure: function (errMsg) {},
+						error: function (result) {}
+					});
+				}
+				catch(ex)
+				{
+					$('#result').text("Error")
+					console.log(ex);
+				}
+			}
+        </script>
+    </head>
+    <body onload="load()">
+        <!-- Home -->
+        <div data-role="page" id="page1">
+            <div data-theme="c" data-role="header">
+                <h3>
+                    WeddApp
+                </h3>
+            </div>
+            <div data-role="content">
+			<div data-role="fieldcontain">
+                    <fieldset data-role="controlgroup" data-type="horizontal">
+                        <input name="radsLanguage" id="radio1" type="radio" value="radEnglish" onclick="Change('0')">
+                        <label id="lblRadio1" for="radio1">
+                            English
+                        </label>
+                        <input name="radsLanguage" id="radio2" type="radio" value="radHebrew" onclick="Change('1')">
+                        <label for="radio2">
+                            עברית                        </label>
+                    </fieldset>
+                </div>
+				<div id="divIntro0">
+                    <br />
+					<p>Welcome to WeddApp!</p>
+					<p>This application is for Hagit and Oded's wedding guests.</p>
+					<p>We would like to welcome you to download the app and give the wedding additional flavour.</p>
+					<p>The application offers different views:</p>
+					<p>1. Photo sharing (updates in real time). That way, each photo you take <b>using the app</b> can be uploaded to a special picasa album.</p>
+					<p>2. Map - To navigate to the wedding location</p>
+					<p>3. Invitaion - A copy of the invitation</p>
+					<p>4. RSVP - Approve your participation (that way we wonn't trouble you with calls)</p>
+					<p>5. Table - Find out what is your table number (available at the day of the wedding only)</p>
+					<p>6. Greeting - Send the lovely couple a greeting using the app</p>
+					<p>7. Credits - If you enjoyd one of our wonderful service providers, you can get to their website from the app</p>
+					<br />
+					<p>For any comments and/or suggestion, feel free to call us or send a mail to hagit.oded@gmail.com</p>
+					<p>Note that the iPhone version a bit more tricky to download. explnations in the iPhone section</p>
+					<p>No personal information will be used or even captured</p>
+					<br />
+					<p>Thank you, and we hope to see you soon at our wedding!</p>
+					<p>Hagit and Oded</p>
+				</div>
+				<div id="divIntro1" style="display:none; text-align: right;">
+                    <br />
+					<p>!WeddApp-ברוכים הבאים ל</p>
+					<p>זו אפליקציה שהוכנה לחתונתם של חגית ועודד WeddApp</p>
+					<p>אנו מעוניינים להזמין אותכם ואותכן להוריד את האפליקציה ולהוסיף לחווית החתונה</p>
+					<p>האפליקציה כוללת את התכנים הבאים</p>
+                    <p>שיתוף תמונות - ניתן להוסיף תמונות דרך האפליקציה לאלבום החתונה שנגיש דרך האפליקציה ומתעדכן בזמן אמת לאורך כל האירוע</p>
+					<p>מפת הגעה - מפה מבוססת המפות של גוגל שמראה את המסלול לחתונה ממקומכם הנוכחי. כולל קישור לאפליקציית וייז</p>
+					<p>הזמנה - העתק של ההזמנה</p>
+					<p>אישור הגעה - שלחו לנו אישור דרך האפליקציה ולא נטריד אותכם בטלפונים נוספים</p>
+					<p>מקום ישיבה - מספר השולחן שלכם ביום האירוע, יהיה זמין ביום החתונה</p>
+					<p>ברכות - שלחו לנו ברכה דרך האפליקצייה</p>
+					<p>ספקים -מספקי השירות שלנו מופיעים, כך שאם אהבתם אותם ומתכננים אירוע בקרוב, פרטי הקשר מופיעים באפליקציה</p>
+					<br />
+                    <p>כל הערה, המלצה או הצעה תתקבל בברכה, מוזמנים להתקשר אלינו או לשלוח מייל ל</p>
+					<p>hagit.oded@gmail.com</p>
+                    <p>שימו לב, תהליך ההורדה לאייפון קצת יותר מסובך, עמכם הסליחה. לכל בעיה צרו קשר עימנו ונעזור לכם. הסברים למטה</p>
+                    <p>אנו מבטיחים כי לא יעשה איסוף ו/או שימוש של מידע פרטי בשום צורה</p>
+					<br />
+					<p>תודה רבה, ומקווים לראותכם בקרוב בחתונתינו</p>
+					<p>חגית ועודד</p>
+				</div>
+			</div>
+			<br />
+            <div data-role="content">
+                <div data-role="collapsible-set" data-theme="b">
+                    <div data-role="collapsible">
+                        <h3>
+                            Windows Phone
+                        </h3>
+                        <a data-role="button" href="#page1">
+                            Download
+                        </a>
+                    </div>
+                    <div data-role="collapsible">
+                        <h3>
+                            Android
+                        </h3>
+						<!-- <a class="button1" href="http://papo84.no-ip.org/WeddApp/download/WeddApp.apk" download="WeddApp.apk">Download</a>
+						<a class="button1" href="https://skydrive.live.com/redir?resid=F3FA1F8E69269423!811&authkey=!AAIvuNnqVvYQuI8">Download</a> -->
+						<a href="http://papo84.no-ip.org/weddapp/download/WeddApp.apk" onclick="AddOne()" rel="external" >Download</a>
+						
+                        <!-- <a data-role="button" href="#page1">
+                            Download
+                        </a> -->
+                    </div>
+                    <div data-role="collapsible" data-collapsed="true">
+                        <h3>
+                            iPhone
+                        </h3>
+						<p>For Apple users this is a 3 steps download</p>
+						<p>First, you'll need to send us your UDID device number (we can assure you, no personal information will be collected or used in any way.</p>
+						<p>To extract your UDID click <a href="http://goo.gl/BUbd">here</a></p>
+						<p>Send to UDID to us at hagit.oded@gmail.com, we will then enable the installation per your device (we will check that inbox daily)</p>
+						<p>After we enable the option we will reply the mail that the process has been done.</p>
+						<p>Then Download the provisioning, and then the app</p>
+						<p>We are terribly sorry for all the mess, this is because we can't use the appstore.</p>
+						<p>Once more we want to clarify that no personal information will be used in any sort of way</p>
+						<p>Thanks for the patience and understanding</p>
+						<table>
+							<tbody>
+								<tr>
+									<td>
+										<!-- <a class="button1" href="https://skydrive.live.com/redir?resid=F3FA1F8E69269423!832&authkey=!AB7GBLcSt4-kaW8">Provisioning</a> -->
+										<a href="http://papo84.no-ip.org/weddapp/download/WeddApp.mobileprovision" onclick="AddOne()" rel="external" >Download Provisioning</a>
+									</td>
+								</tr>
+								<tr>
+									<td>
+										<!-- <a class="button1" href="https://skydrive.live.com/redir?resid=F3FA1F8E69269423!833&authkey=!AElrRI7yJH735EM">Download App</a>
+										<a href="http://papo84.no-ip.org/weddapp/download/WeddApp.plist" rel="external" >Download App</a> -->
+										<a href="itms-services://?action=download-manifest&amp;url=http://papo84.no-ip.org/weddapp/download/WeddApp.plist" >Download App</a>
+									</td>
+								</tr>
+							</tbody>
+						</table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </body>
+</html>

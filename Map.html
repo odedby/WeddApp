@@ -1,0 +1,115 @@
+﻿<!DOCTYPE html>
+<html>
+	<head>
+		    <meta name="viewport" content="initial-scale=1.0, user-scalable=no">
+			
+    <meta charset="utf-8">
+    <title>WeddApp</title>
+    <link rel="stylesheet" href="mapapp.css" type="text/css">
+    <link rel="stylesheet" href="http://code.jquery.com/mobile/1.1.0/jquery.mobile-1.1.0.min.css" />
+	<script src="http://code.jquery.com/jquery-1.7.1.min.js"></script>
+	<script src="http://code.jquery.com/mobile/1.1.0/jquery.mobile-1.1.0.min.js"></script>
+	<script type="text/javascript" src="http://maps.google.com/maps/api/js?sensor=false"></script>
+	<script type="text/javascript" src="jquery.ui.map/jquery.ui.map.js"></script>
+	<script type="text/javascript" src="jquery.ui.map/jquery.ui.map.services.js"></script>
+	<script type="text/javascript" charset="utf-8" src="gmapapp.js"></script>
+		
+    <style>
+	
+	  #header {
+			font-family: Helvetica, Arial, sans-serif /*{global-font-family}*/;
+			border: 1px solid white /*{a-bar-border}*/;
+			background: #3FBCFF /*{a-bar-background-color}*/;
+			color: white /*{a-bar-color}*/;
+			font-weight: bold;
+			text-shadow: 0 /*{a-bar-shadow-x}*/ 1px /*{a-bar-shadow-y}*/ 1px /*{a-bar-shadow-radius}*/ #444 /*{a-bar-shadow-color}*/;
+			background-image: -webkit-gradient(linear, left top, left bottom, from( #3FBCFF /*{a-bar-background-start}*/), to( #3FBCFF /*{a-bar-background-end}*/));
+			background-image: -webkit-linear-gradient( #3FBCFF /*{a-bar-background-start}*/, #3FBCFF /*{a-bar-background-end}*/);
+			background-image: -moz-linear-gradient( #3FBCFF /*{a-bar-background-start}*/, #3FBCFF /*{a-bar-background-end}*/);
+			background-image: -ms-linear-gradient( #3FBCFF /*{a-bar-background-start}*/, #3FBCFF /*{a-bar-background-end}*/);
+			background-image: -o-linear-gradient( #3FBCFF /*{a-bar-background-start}*/, #3FBCFF /*{a-bar-background-end}*/);
+			background-image: linear-gradient( #3FBCFF /*{a-bar-background-start}*/, #3FBCFF /*{a-bar-background-end}*/);
+		}
+		
+	  #h3 {
+			color: white /*{a-bar-color}*/;
+			font-weight: bold;
+			text-shadow: 0 /*{a-bar-shadow-x}*/ 1px /*{a-bar-shadow-y}*/ 1px /*{a-bar-shadow-radius}*/ #444 /*{a-bar-shadow-color}*/;
+			font-family: Helvetica, Arial, sans-serif /*{global-font-family}*/;
+			min-height: 1.1em;
+			text-align: center;
+			font-size: 16px;
+			display: block;
+			margin: .6em 90px .8em;
+			padding: 0;
+			text-overflow: ellipsis;
+			overflow: hidden;
+			white-space: nowrap;
+			outline: 0 !important;
+		}	
+    </style>
+	<style type="text/css">
+		#Home
+		{
+		position:absolute;
+		left:0px;
+		top:0px;
+		z-index:10;
+		}
+	</style>
+	<script type="text/javascript">		
+		function Redirect(pageName)
+		{
+			window.location.replace(pageName + ".html");
+		}
+		function ChangeWaze(pageName)
+		{
+			$('#imgWaze').attr('src','./images/Waze.png');
+		}
+	</script>
+
+	</head>
+	<body onload="load()">
+	<div data-role="page" data-theme="c" data-fullscreen="true" id="page-map">
+		<div id="header">
+				<img style="margin-top:5px; margin-left:5px; height:inherit;" id="Home" src="./images/Back.png" onclick="Redirect('index')"/>
+			<h3 id="h3">
+				Map
+			</h3>
+		</div>
+		<div id="divWaze">
+			<table style="width:100%;">
+				<tbody>
+					<tr>
+						<td>
+							<div id="divWazeText" style="float:left">
+								<p>You can also navigate with</p>
+							</div>
+						</td>
+						<td>
+							<div id="divWazeImage" style="float:right">
+								<a onclick="ChangeWaze()" href="waze://?q=The Q Glil Yam"><img style="height:32px;" id="imgWaze" src="./images/Waze-white.png"/></a>
+							</div>
+						</td>
+					</tr>
+				</tbody>
+			</table>
+		</div>
+	<div data-role="content" id="map-content" style="height:60%;">
+		<div id="map_canvas"></div>
+	</div><!-- /content -->
+	<div data-role="content">
+		<div id="dir_panel"></div>
+	</div><!-- /content -->
+	<div data-role="footer" data-theme="d" data-position="fixed">
+	<div data-role="navbar" style="display:none;>
+	<ul>
+    	<li><a href="#page-home">Home</a></li>
+    	<li><a href="#page-map" class="refresh">Refresh</a></li>
+    	<li><a href="#page-dir">Directions</a></li>
+	</ul>
+	</div><!-- /navbar -->
+	</div><!-- /footer -->
+	</div><!-- /page-map -->
+	</body>
+</html>

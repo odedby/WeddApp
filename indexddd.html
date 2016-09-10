@@ -1,0 +1,578 @@
+﻿	<!DOCTYPE html>
+	<html>
+		<head>
+			<meta charset="utf-8" />
+			<meta name="viewport" content="width=device-width, initial-scale=1" />
+			<title>WeddApp</title>
+			<link rel="stylesheet" href="css/jQuery.css" />
+			<link rel="stylesheet" href="css/jquery.mobile.structure-1.0.1.css" />
+			<link rel="stylesheet" href="css/jquery.mobile-1.0.1.css" />
+			<link rel="stylesheet" href="css/WeddAppCSS.css" />
+			<link rel="stylesheet" href="css/pwi.css" type="text/css"/>
+			
+			<script src="./scripts/jQuery.js"></script>
+			<script src="cordova-2.0.0.js"></script>
+			<script src="./scripts/jQueryMobile.js"></script>
+			<script src="scripts/downloadpicasa.js" type="text/javascript"></script>
+
+			<script type="text/javascript">
+				function onDeviceReady() 
+				{
+					$(document).ready(function () {document.addEventListener("backbutton", onBackKey, true);});
+				}	
+				var lastPage='index';
+				
+				function Load()
+				{
+  					document.addEventListener("deviceready", onDeviceReady, false);
+					//document.addEventListener("backbutton", onBackKey, true);
+					//Refresh();
+				}
+				
+				function onBackKey() 
+				{
+					if(lastPage=='index')
+					{
+						navigator.app.exitApp();
+					}
+					else
+					{
+						Redirect('index');
+					}
+				}
+				
+				function Redirect(pageName)
+				{
+					if(pageName == 'Map')
+					{
+						$('#MapIcon').css('background-color','lightcyan');
+						window.location.replace("Map.html");
+					}
+					if(pageName != 'index')
+					{
+						$('#' + pageName + 'Icon').css('background-color','lightcyan');
+						Refresh();
+						$('#divIcons').css('display','none');
+						$('#divHeader').css('display','block');
+						$('#page' + pageName).css('display','inline');
+						$('#headerText').text(pageName)
+						$('.pwi_photo').css('height','');
+						lastPage = pageName;
+					}
+					else
+					{
+						$('#' + lastPage + 'Icon').css('background-color','#3FBCFF');
+						$('#divIcons').css('display','inline');
+						$('#divHeader').css('display','none');
+						$('#page' + lastPage).css('display','none');
+						lastPage='index';
+					}
+				}
+			</script>
+			<script type="text/javascript">
+				var contentGreeting = '';
+				function SendGreeting()
+				{
+				if($('#inputGreetingSender').val() == '' || $('#inputGreetingContent').val() == '')
+				{
+					alert('Please fill both sender and greeting');
+				}
+				else
+				{
+					if(confirm('Are you sure you want to send the greeting?'))
+						{
+							try{
+								contentGreeting = ($('#inputGreetingContent').val());
+								while(contentGreeting.indexOf('\n') > 0) {contentGreeting = contentGreeting.replace('\n','$$$');}
+								$.ajax({
+									type: "POST",
+									url: "http://papo84.no-ip.org/WeddApp/WeddAppService.asmx/Greeting",
+									data: "{'jsonGreeting':'{\"inSender\":" + $('#inputGreetingSender').val() + ",\"inContent\":" + contentGreeting + "}'}",
+									contentType: "application/json; charset=utf-8",
+									dataType: "json",
+									success: function (data) {
+										if(data.d == "Success!")
+										{alert('Greeting sent succefully!');}
+										else{alert('There was an error sending Greeting.');}
+									},
+									failure: function (errMsg) {
+										alert('failure' + errMsg);
+									},
+									error: function (result) {
+										alert(result);
+									}
+								});
+							}
+							catch(ex)
+							{
+								$('#result').text("Error")
+								console.log(ex);
+							}
+						}
+					}
+				}
+				
+				var contentRSVP = '';
+				function SendRSVP()
+				{
+				if($('#inputRSVPSender').val() == '' || $('#inputRSVPContent').val() == '')
+				{
+					alert('Please fill both sender and RSVP response');
+				}
+				else
+				{
+					if(confirm('Are you sure you want to send the RSVP response?'))
+						{
+							try{
+								contentRSVP = ($('#inputRSVPContent').val());
+								while(contentRSVP.indexOf('\n') > 0) {contentRSVP = contentRSVP.replace('\n','$$$');}
+								$.ajax({
+									type: "POST",
+									url: "http://papo84.no-ip.org/WeddApp/WeddAppService.asmx/RSVP",
+									data: "{'jsonRSVP':'{\"inSender\":" + $('#inputRSVPSender').val() + ",\"inContent\":" + contentRSVP + "}'}",
+									contentType: "application/json; charset=utf-8",
+									dataType: "json",
+									success: function (data) {
+										if(data.d == "Success!")
+										{alert('RSVP response sent succefully!');}
+										else{alert('There was an error sending the RSVP response.');}
+									},
+									failure: function (errMsg) {
+										alert('failure' + errMsg);
+									},
+									error: function (result) {
+										alert(result);
+									}
+								});
+							}
+							catch(ex)
+							{
+								$('#result').text("Error")
+								console.log(ex);
+							}
+						}
+					}
+				}
+				
+				function SetTableNumber()
+				{
+					var date = new Date();
+					var now = date.getTime();
+					var weddingDate = new Date(2013, 0, 18, 15, 0, 0, 0);
+					if(now>weddingDate)
+					{
+						var numTable = document.getElementById('slctName').value;
+						var offsetLeft = $('#imgTable').offset().left + ($('#imgTable').width() /2) -16;
+						var offsetTop = $('#imgTable').offset().top + ($('#imgTable').height() /2) -16;
+						$('#numTable').css('display','inline');
+						$('#numTable').css('left',offsetLeft);
+						$('#numTable').css('top',offsetTop);
+						$('#numTable').attr("src", "./images/Numbers/" + numTable + ".png");
+					}
+					else
+					{
+						alert('Tables numbers will be available at the day of the wedding');
+					}
+				}
+			</script>
+			<style type="text/css">
+				#Home
+				{
+				position:absolute;
+				left:5px;
+				top:5px;
+				z-index:10;
+				cursor: pointer;
+				}
+				.ui-br
+				{
+				border-bottom-style: none;
+				}
+				.ui-field-contain
+				{
+				margin:0.3em 0;
+				}
+				
+				#wrapper, #access, #colophon, #branding, #main { width:1100px ;}
+				.attachment img{  max-width:1060px ;}
+				.single-attachment #content {width:1060px ;}
+				#access .menu-header, div.menu {width:1088px ;}
+				#content img {	max-width:760px;}
+				#content .wp-caption{	max-width:770px;}
+
+				#content { width:790px;}
+				#primary,#secondary {width:250px;}
+
+				#content p, #content ul, #content ol {
+				font-size:15px;
+				}
+				 * , .widget-title {font-family:Segoe UI, Arial, sans-serif ; } body { background-color:#444444 !important ;} #header { background-color:#333333  ;} #footer { background-color:#222222  ;} #footer2 { background-color:#171717  ;} #site-title span a { color:#0D85CC  ;} #site-description { color:#999999  ;} #content p, #content ul, #content ol { color:#333333  ;} .widget-area a:link, .widget-area a:visited, a:link, a:visited ,#searchform #s:hover , #container #s:hover, #access a:hover, #wp-calendar tbody td a , #site-info a ,#site-copyright a, #access li:hover > a, #access ul ul :hover > a { color:#0D85CC;}  a:hover, .entry-meta a:hover, .entry-utility a:hover , .widget-area a:hover { color:#333333 ;} #content .entry-title a, #content .entry-title, #content h1, #content h2, #content h3, #content h4, #content h5, #content h6{ color:#333333 ;} #content .entry-title a:hover { color:#000000 ;} .widget-title,#footer-widget-area .widget-title { background-color:#444444 ;} .widget-title { color:#2EA5FD  ;} #footer-widget-area .widget-title { color:#0C85CD ; ;} #footer-widget-area a { color:#666666  ;} #footer-widget-area a:hover { color:#888888  ;}  .entry-time {display:none;} 
+				 
+				 /* Mantra Custom CSS */      
+				#wrapper, #access, #colophon, #branding, #main {
+					width: auto;
+				}
+
+				#content {
+					width: 97%;
+				}  
+
+				#primary, #secondary {
+					width: 97%;
+				}
+				#primary {
+					min-height: 0px;
+				}
+
+				li.widget-container {
+					float: left;
+					display: block;
+					overflow: hidden;
+					padding-left: 5px;
+				}
+
+				#main .widget-area ul ul {
+					margin-left: 0px;
+				}
+
+				.widget-title {
+					width:95%;
+					padding-right: 10px;
+				}
+
+				#text-2 { 
+					width:250px;
+				}
+				.widget_search #s, #search #s {
+					margin-left: 0px;
+					width: 150px;
+				}
+				#search-2 {
+					float:right;
+				}
+				/*
+				div.entry-meta .onDate .bl_sep {
+					display:none;
+				}
+				div.entry-meta .bl_categ {
+					display:none;
+				}    
+				*/
+				.loginout a:hover {
+				   color: #FF22A5;
+				   text-decoration:underline;
+				}
+
+				.loginout {
+					float:right;
+					margin-right:10px;
+					min-height:20px;
+					overflow:hidden;
+					padding-left:10px;
+					padding-top:5px;
+					position:relative;
+				}
+				.loginout li {
+					float:left;
+					padding-left:4px;
+				}
+
+				div.row {
+					margin: 0;
+					overflow: hidden;
+					padding: 0;
+					width: 98.5%;
+				}
+				div.cols2 {
+					float: left;
+					margin: 0 3px 0 0;
+					padding: 0;
+					width: 49%;
+				}    
+				img.plain {
+				border:none;
+				box-shadow: none;
+				}                              
+
+				th {
+				 background-color: #EEEEEE;
+				 border: 1px solid #CCCCCC;
+				 color: #555555;
+				 padding: 8px;
+				 text-align: center;
+				}
+
+				table {
+				 border-collapse: collapse;
+				 border-spacing: 0;
+				 width:100%;
+				}
+
+				td {
+				 border: 1px solid #CCCCCC;
+				 padding: 5px 10px;
+				}
+
+				caption {
+				 text-align: center;
+				 background-color: #EFEFEF;
+				 border: 1px solid #CCCCCC;
+				 border-bottom: none;
+				 font-weight: bold;
+				 padding: 5px;
+				}
+				#numTable
+				{
+					display: none;
+					position: absolute;
+					left: 5px;
+					top: 5px;
+					z-index: 100;
+				}
+				
+				.circle {
+				background-color: rgba(0,0,0,0);
+				border:5px solid rgba(0,183,229,0.9);
+				opacity:.9;
+				border-right:5px solid rgba(0,0,0,0);
+				border-left:5px solid rgba(0,0,0,0);
+				border-radius:50px;
+				box-shadow: 0 0 35px #2187e7;
+				width:50px;
+				height:50px;
+				margin:0 auto;
+				-moz-animation:spinPulse 1s infinite ease-in-out;
+				-webkit-animation:spinPulse 1s infinite linear;
+				}
+				.circle1 {
+					background-color: rgba(0,0,0,0);
+					border:5px solid rgba(0,183,229,0.9);
+					opacity:.9;
+					border-left:5px solid rgba(0,0,0,0);
+					border-right:5px solid rgba(0,0,0,0);
+					border-radius:50px;
+					box-shadow: 0 0 15px #2187e7; 
+					width:30px;
+					height:30px;
+					margin:0 auto;
+					position:relative;
+					top:-50px;
+					-moz-animation:spinoffPulse 1s infinite linear;
+					-webkit-animation:spinoffPulse 1s infinite linear;
+				}
+				@-moz-keyframes spinPulse {
+					0% { -moz-transform:rotate(160deg); opacity:0; box-shadow:0 0 1px #2187e7;}
+					50% { -moz-transform:rotate(145deg); opacity:1; }
+					100% { -moz-transform:rotate(-320deg); opacity:0; }
+				}
+				@-moz-keyframes spinoffPulse {
+					0% { -moz-transform:rotate(0deg); }
+					100% { -moz-transform:rotate(360deg);  }
+				}
+				@-webkit-keyframes spinPulse {
+					0% { -webkit-transform:rotate(160deg); opacity:0; box-shadow:0 0 1px #2187e7; }
+					50% { -webkit-transform:rotate(145deg); opacity:1;}
+					100% { -webkit-transform:rotate(-320deg); opacity:0; }
+				}
+				@-webkit-keyframes spinoffPulse {
+					0% { -webkit-transform:rotate(0deg); }
+					100% { -webkit-transform:rotate(360deg); }
+				}
+			</style>
+		</head>
+		<body onload="Load()">			
+			<div id="divLoader" style="display:none; width:100%; z-index:1000; position:absolute; margin-top:200px">
+				<center><div class="circle"></div>
+				<div class="circle1"></div>
+				</center>
+			</div>
+		 <div data-role="page" id="pageMain">
+			<div data-theme="a" data-role="header" id="divHeader" style="display:none; margin-left:-1px;">
+				<img style="height:inherit;" id="Home" src="./images/Back.png" onclick="Redirect('index')"/>
+                <h3 id="headerText">Credits</h3>
+			</div>
+			<div id="divIcons">
+				<div style="width: 100%;">
+					<div style="width: 47%; margin:1%; margin-left:2%; margin-top:2%; float:left;">
+						<img style="cursor:pointer; width: 100%; max-width:256px; background-color:#3FBCFF;" id="PhotosIcon" src="./images/WPIcons/Photos Light.png" onclick="Redirect('Photos')"/>
+					</div>
+					<div style="width: 47%; margin:1%; margin-right:2%; margin-top:2%; float:right;">
+						<img style="cursor:pointer; width: 100%; max-width:256px; background-color:#3FBCFF;" id="MapIcon" src="./images/WPIcons/Map Light.png" onclick="Redirect('Map')"/>
+					</div>
+				</div>
+				<div style="width: 100%;">
+					<div style="width: 47%; margin:1%; margin-left:2%; margin-top:0.5%; float:left;">
+						<img style="cursor:pointer; width: 100%; max-width:256px; background-color:#3FBCFF;" id="InvitationIcon" src="./images/WPIcons/Invitation Light.png" onclick="Redirect('Invitation')"/>
+					</div>
+					<div style="width: 47%; margin:1%; margin-right:2%; margin-top:0.5%; float:right;">
+						<img style="cursor:pointer; width: 100%; max-width:256px; background-color:#3FBCFF;" id="RSVPIcon" src="./images/WPIcons/RSVP Light.png" onclick="Redirect('RSVP')"/>
+						<!-- <img style="cursor:pointer; width: 100%; max-width:256px; background-color:#3FBCFF;" id="HitchhikeIcon" src="./images/WPIcons/Hitchhike Light.png" onclick="Redirect('Hitchhike')"/> -->
+					</div>
+				</div>
+				<div style="width: 100%;">
+					<div style="width: 47%; margin:1%; margin-left:2%; margin-top:0.5%; float:left;">
+						<img style="cursor:pointer; width: 100%; max-width:256px; background-color:#3FBCFF;" id="TableIcon" src="./images/WPIcons/Table Light.png" onclick="Redirect('Table')"/>
+					</div>	
+					<div style="width: 47%; margin:1%; margin-right:2%; margin-top:0.5%; float:right;">
+						<img style="cursor:pointer; width: 100%; max-width:256px; background-color:#3FBCFF;" id="GreetingIcon" src="./images/WPIcons/Greeting Light.png" onclick="Redirect('Greeting')"/>
+					</div>
+				</div>
+				<div style="width: 100%;">
+					<div style="width: 47%; margin:1%; margin-left:2%; margin-top:0.5%; float:left;">
+						<img style="cursor:pointer; width: 100%; max-width:256px; background-color:#3FBCFF;" id="CreditsIcon" src="./images/WPIcons/Credits Light.png" onclick="Redirect('Credits')"/>
+					</div>	
+					<!-- <div style="width: 47%; margin:1%; margin-right:2%; margin-top:0.5%; float:right;">
+						
+					</div> -->
+				</div>
+			</div>
+			<div id="pagePhotos" style="display:none;">
+				<div id="container"></div>
+				<div id="divRefresh">
+					<div style="width:50%; float:right"><button id="btnRefresh" onclick="Refresh()">Refresh</button></div>
+					<div style="width:50%; float:left">
+						<button id="btnAddPhoto" onclick="AddPhoto()" >Add Photo</button>
+					</div>
+				</div>
+				<div>
+					<img style="display:none;width:60px;height:60px;" id="smallImage" />
+				</div>
+				<div id="divPhoto" style="display:none">
+					<img id="imgPhoto"></img>
+					<button id="btnBack" onclick="Back()">Back</button>
+				</div>
+			</div>
+			<div id="pageInvitation" style="display:none;">
+				<div>
+					<center><img style="align:center;" id="imgInvitation" src="./images/Invitation.jpg" /></center>
+				</div>
+			</div>		
+			<div id="pageRSVP" style="display:none;">
+					<h2 style="margin: 0.3em;"><center>Send a RSVP response to us</center></h2>
+					<table style="width:100%; height:100%;">
+						<tbody>
+							<tr>
+								<td>
+									<div>
+										<label>From:</label>
+									</div>
+								</td>
+								<td>
+									<div>
+										<input name="inputRSVPSender" id="inputRSVPSender" style="width:90%">
+									</div>
+								</td>
+							</tr>
+							<tr>
+								<td>
+									<div>
+										<label>RSVP:</label>
+									</div>
+								</td>
+								<td>
+									<div>
+										<textarea name="inputRSVPContent" id="inputRSVPContent" style="height:200px; width:90%"></textarea>
+									</div>
+								</td>
+							</tr>
+						</tbody>
+					</table>
+					<div class="ui-block-b">
+						<button onclick="SendRSVP(this.form)">Submit</button>
+					</div>
+			</div>
+			<div id="pageTable" style="display:none;">
+				<h1><center>Your table number</center></h1>
+				<select id="slctName" onchange="SetTableNumber()">
+					<option value="1">Oded</option>
+					<option value="2">Hagit</option>
+					<option value="3">Yonatan</option>
+					<option value="4">Ram</option>
+				</select>
+				<br><br />
+				<div>
+					<center>
+						<image id="imgTable" src="./images/TableIcon.png">
+							<image style="width:32px;" id="numTable" src="./images/Back.png"></image>
+						</image>
+					</center>
+				</div>
+			</div>
+			<div id="pageGreeting" style="display:none;">
+				<div>
+					<h2 style="margin: 0.3em;"><center>Send a greeting to us</center></h2>
+					<table style="width:100%; height:100%;">
+						<tbody>
+							<tr>
+								<td>
+									<div>
+										<label>From:</label>
+									</div>
+								</td>
+								<td>
+									<div>
+										<input name="inputGreetingSender" id="inputGreetingSender" style="width:90%">
+									</div>
+								</td>
+							</tr>
+							<tr>
+								<td>
+									<div>
+										<label>Greeting:</label>
+									</div>
+								</td>
+								<td>
+									<div>
+										<textarea name="inputGreetingContent" id="inputGreetingContent" style="height:200px; width:90%"></textarea>
+									</div>
+								</td>
+							</tr>
+						</tbody>
+					</table>
+					<div class="ui-block-b">
+						<button onclick="SendGreeting(this.form)">Submit</button>
+					</div>
+				</div>
+			</div>
+			<div id="pageCredits" style="display:none;">
+				<table>
+					<caption>Providers Detailes</caption>
+					<tbody>
+						<tr>
+							<th>Service</th>
+							<th>Name</th>
+						</tr>
+						<tr>
+							<th>Hall</th>
+							<td><a href="http://the-q.co.il">The Q</a></td>
+						</tr>
+						<tr>
+							<th>Catering</th>
+							<td><a href="http://www.taam-vatzeva.co.il">טעם וצבע</a></td>
+						</tr>
+						<tr>
+							<th>DJ</th>
+							<td><a href="http://www.ron-music.com/">רוני ורטהיימר</a></td>
+						</tr>
+						<tr>
+							<th>Ceremony Organizer</th>
+							<td><a href="http://www.tkasim.org.il/49949/%D7%94%D7%A8%D7%91-%D7%A0%D7%A8%D7%93%D7%99-%D7%92%D7%A8%D7%99%D7%9F">נרדי גרין</a></td>
+						</tr>
+						<tr>
+							<th>Bride Dress</th>
+							<td>Cell c3</td>
+						</tr>
+						<tr>
+							<th>Invitations</th>
+							<td>Cell c3</td>
+						</tr>
+						<tr>
+							<th>App</th>
+							<td><a href="papo84.no-ip.org/WeddApp/index.html">WeddApp</a></td>
+						</tr>
+					</tbody>
+				</table>
+			</div>
+		</div>
+		</body>
+	</html>
